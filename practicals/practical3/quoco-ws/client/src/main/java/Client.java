@@ -8,7 +8,7 @@ public class Client {
     public static void main(String[] args) {
         try {
         String host = "localhost";
-        int port = 9001;
+        int port = 9000;
         // More Advanced flag-based configuration
         for (int i=0; i < args.length; i++) {
             switch (args[i]) {
@@ -27,19 +27,19 @@ public class Client {
             }
         }
 
-       
-        URL wsdlUrl = new
-        URL("http://" + host + ":" + port + "/quotation?wsdl");
-        QName serviceName =
-        new QName("http://core.service/", "QuoterService");
+      // client querying to broker web service running on port 9000 
+        URL wsdlUrl = new URL("http://" + host + ":" + port + "/broker?wsdl");
+        QName serviceName = new QName("http://core.service/", "BrokerService");
         Service service = Service.create(wsdlUrl, serviceName);
-        QName portName = new QName("http://core.service/", "QuoterPort");
-        QuoterService quotationService =
-        service.getPort(portName, QuoterService.class);
+        QName portName = new QName("http://core.service/", "BrokerPort");
+        BrokerService brokerService = service.getPort(portName, BrokerService.class);
+
         for (ClientInfo info : clients) {
         displayProfile(info);
-        Quotation quotation = quotationService.generateQuotation(info);
-        displayQuotation(quotation);
+		// Retrieve quotations from the broker and display them...
+			for(Quotation quotation : brokerService.getQuotations(info)) {
+				displayQuotation(quotation);
+			}
         System.out.println("\n");
         }
         } catch (Exception e) {

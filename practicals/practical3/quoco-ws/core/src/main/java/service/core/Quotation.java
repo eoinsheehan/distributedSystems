@@ -13,7 +13,7 @@ public class Quotation {
 		this.price = price;
 		
 	}
-	
+	public Quotation() {}
 	public String company;
 	public String reference;
 	public double price;

@@ -30,7 +30,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.6.0</version>
                 <configuration>
-                    <mainClass>Server</mainClass>
+                    <mainClass>service.core.Broker</mainClass>
                 </configuration>
             </plugin>
             <plugin>
