@@ -1,5 +1,11 @@
 package service.core;
 
+import java.net.InetAddress;
+import java.net.URL;
+import javax.jmdns.JmDNS;
+import javax.jmdns.ServiceEvent;
+import javax.jmdns.ServiceInfo;
+import javax.jmdns.ServiceListener;
 import service.core.AbstractQuotationService;
 import service.core.ClientInfo;
 import service.core.Quotation;
@@ -25,6 +31,27 @@ import java.util.concurrent.Executors;
 	// All references are to be prefixed with an AF (e.g. AF001000)
 	public static final String PREFIX = "AF";
 	public static final String COMPANY = "Auld Fellas Ltd.";
+	
+	private static void jmdnsAdvertise(String host) {
+		try {
+			String config = "path=http://"+host+":9001/quotation?wsdl";
+			JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
+	
+			// Register a service
+			ServiceInfo serviceInfo =
+					ServiceInfo.create("_http._tcp.local.", "ws-service", 9001, config);
+			jmdns.registerService(serviceInfo);
+	
+			// Wait a bit
+			Thread.sleep(100000);
+	
+			// Unregister all services
+			jmdns.unregisterAllServices();
+		} catch (Exception e) {
+			System.out.println("Problem Advertising Service: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * Quote generation:
@@ -60,6 +87,11 @@ import java.util.concurrent.Executors;
 	}
 
 	public static void main(String[] args) {
+		String host = "localhost";
+		if (args.length > 0) {
+			host = args[0];
+		}
+	
 		try {
 		Endpoint endpoint = Endpoint.create(new Quoter());
 		HttpServer server = HttpServer.create(new InetSocketAddress(9001), 5);
@@ -67,6 +99,7 @@ import java.util.concurrent.Executors;
 		HttpContext context = server.createContext("/quotation");
 		endpoint.publish(context);
 		server.start();
+		jmdnsAdvertise(host);
 		} catch (Exception e) {
 		e.printStackTrace();
 		}

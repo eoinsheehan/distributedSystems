@@ -8,9 +8,11 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.*;
 import javax.xml.ws.Endpoint;
+import javax.jmdns.JmDNS;
 import java.net.*;
 import com.sun.net.httpserver.*;
 import java.util.concurrent.Executors;
+import javax.jmdns.ServiceInfo;
 
 /**
  * Implementation of the AuldFellas insurance quotation service.
@@ -25,6 +27,27 @@ import java.util.concurrent.Executors;
 	// All references are to be prefixed with an AF (e.g. AF001000)
 	public static final String PREFIX = "GP";
 	public static final String COMPANY = "Girl Power Inc.";
+
+	private static void jmdnsAdvertise(String host) {
+		try {
+			String config = "path=http://"+host+":9002/quotation?wsdl";
+			JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
+	
+			// Register a service
+			ServiceInfo serviceInfo =
+					ServiceInfo.create("_http._tcp.local.", "ws-service", 9002, config);
+			jmdns.registerService(serviceInfo);
+	
+			// Wait a bit
+			Thread.sleep(100000);
+	
+			// Unregister all services
+			jmdns.unregisterAllServices();
+		} catch (Exception e) {
+			System.out.println("Problem Advertising Service: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * Quote generation:
@@ -60,6 +83,10 @@ import java.util.concurrent.Executors;
 	}
 
 	public static void main(String[] args) {
+		String host = "localhost";
+		if (args.length > 0) {
+			host = args[0];
+		}
 		try {
 		Endpoint endpoint = Endpoint.create(new Quoter());
 		HttpServer server = HttpServer.create(new InetSocketAddress(9002), 5);
@@ -67,6 +94,7 @@ import java.util.concurrent.Executors;
 		HttpContext context = server.createContext("/quotation");
 		endpoint.publish(context);
 		server.start();
+		jmdnsAdvertise(host);
 		} catch (Exception e) {
 		e.printStackTrace();
 		}
