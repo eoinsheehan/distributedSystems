@@ -1,0 +1,34 @@
+version: '3'
+services:
+    broker:
+        build: broker 
+        ports:
+            - 9000:9000
+        expose:
+            - 9000
+        # environment:
+        #     SERVER_HOST: broker 
+    auldfellas:
+        build: auldfellas 
+        expose:
+            - 9001
+        environment: 
+            CONTAINER_NAME: auldfellas 
+        depends_on:
+        - broker
+    girlpower:
+        build: girlpower
+        expose:
+            - 9002
+        environment: 
+            CONTAINER_NAME: girlpower 
+        depends_on:
+        - broker
+    dodgydrivers:
+        build: dodgydrivers
+        expose:
+            - 9003
+        environment: 
+            CONTAINER_NAME: dodgydrivers
+        depends_on:
+        - broker

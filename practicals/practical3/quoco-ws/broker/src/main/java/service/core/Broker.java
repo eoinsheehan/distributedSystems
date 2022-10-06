@@ -36,6 +36,7 @@ public class Broker{
         HttpContext context = server.createContext("/broker");
         endpoint.publish(context);
         server.start();
+        Thread.sleep(1000);
         JmDNS jmDNS = JmDNS.create(InetAddress.getLocalHost());
         jmDNS.addServiceListener("_http._tcp.local.", new WSDLServiceListener());
         } catch (Exception e) {

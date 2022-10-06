@@ -1,14 +1,8 @@
 package service.core;
 
 import java.net.InetAddress;
-import java.net.URL;
 import javax.jmdns.JmDNS;
-import javax.jmdns.ServiceEvent;
 import javax.jmdns.ServiceInfo;
-import javax.jmdns.ServiceListener;
-import service.core.AbstractQuotationService;
-import service.core.ClientInfo;
-import service.core.Quotation;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;

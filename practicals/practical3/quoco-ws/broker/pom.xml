@@ -49,7 +49,7 @@
                     <configuration>
                         <archive>
                         <manifest>
-                            <mainClass>Server</mainClass>
+                            <mainClass>service.core.Broker</mainClass>
                         </manifest>
                         </archive>
                         <descriptorRefs>

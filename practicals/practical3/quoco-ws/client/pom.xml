@@ -63,7 +63,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>${main.class}</mainClass>
+                                    <mainClass>Client</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>

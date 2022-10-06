@@ -1,8 +1,6 @@
 package service.core;
 
-import service.core.AbstractQuotationService;
-import service.core.ClientInfo;
-import service.core.Quotation;
+
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;

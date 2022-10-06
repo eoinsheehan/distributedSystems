@@ -27,15 +27,17 @@ public class Client {
             }
         }
 
-      // client querying to broker web service running on port 9000 
+      // client querying to broker web service running on port 9000
         URL wsdlUrl = new URL("http://" + host + ":" + port + "/broker?wsdl");
         QName serviceName = new QName("http://core.service/", "BrokerService");
         Service service = Service.create(wsdlUrl, serviceName);
         QName portName = new QName("http://core.service/", "BrokerPort");
         BrokerService brokerService = service.getPort(portName, BrokerService.class);
-
+		Thread.sleep(3000);
+		
         for (ClientInfo info : clients) {
-        displayProfile(info);
+			
+			displayProfile(info);
 		// Retrieve quotations from the broker and display them...
 			for(Quotation quotation : brokerService.getQuotations(info)) {
 				displayQuotation(quotation);
