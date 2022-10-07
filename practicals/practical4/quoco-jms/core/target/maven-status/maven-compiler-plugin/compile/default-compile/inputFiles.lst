@@ -1,6 +1,8 @@
-C:\Users\eoin_\projects\distributed\practicals\practical4\quoco-jms\core\src\main\java\AbstractQuotationService.java
-C:\Users\eoin_\projects\distributed\practicals\practical4\quoco-jms\core\src\main\java\Quotation.java
-C:\Users\eoin_\projects\distributed\practicals\practical4\quoco-jms\core\src\main\java\ClientInfo.java
-C:\Users\eoin_\projects\distributed\practicals\practical4\quoco-jms\core\src\main\java\BrokerService.java
-C:\Users\eoin_\projects\distributed\practicals\practical4\quoco-jms\core\src\main\java\QuotationService.java
-C:\Users\eoin_\projects\distributed\practicals\practical4\quoco-jms\core\src\main\java\Constants.java
+C:\Users\eoin_\projects\distributed\practicals\practical4\quoco-jms\core\src\main\java\service\core\message\QuotationResponseMessage.java
+C:\Users\eoin_\projects\distributed\practicals\practical4\quoco-jms\core\src\main\java\service\core\BrokerService.java
+C:\Users\eoin_\projects\distributed\practicals\practical4\quoco-jms\core\src\main\java\service\core\Quotation.java
+C:\Users\eoin_\projects\distributed\practicals\practical4\quoco-jms\core\src\main\java\service\core\Constants.java
+C:\Users\eoin_\projects\distributed\practicals\practical4\quoco-jms\core\src\main\java\service\core\QuotationService.java
+C:\Users\eoin_\projects\distributed\practicals\practical4\quoco-jms\core\src\main\java\service\core\ClientInfo.java
+C:\Users\eoin_\projects\distributed\practicals\practical4\quoco-jms\core\src\main\java\service\core\AbstractQuotationService.java
+C:\Users\eoin_\projects\distributed\practicals\practical4\quoco-jms\core\src\main\java\service\core\message\QuotationRequestMessage.java

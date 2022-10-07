@@ -21,7 +21,11 @@
             <artifactId>activemq-core</artifactId>
             <version>5.7.0</version>
         </dependency>
- 
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-core</artifactId>
+            <version>5.7.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -31,7 +35,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.6.0</version>
                 <configuration>
-                    <mainClass>Server</mainClass>
+                    <mainClass>service.receiver.Receiver</mainClass>
                 </configuration>
             </plugin>
             <plugin>
@@ -44,7 +48,7 @@
                     <configuration>
                         <archive>
                         <manifest>
-                            <mainClass>Server</mainClass>
+                            <mainClass>service.receiver.Receiver</mainClass>
                         </manifest>
                         </archive>
                         <descriptorRefs>

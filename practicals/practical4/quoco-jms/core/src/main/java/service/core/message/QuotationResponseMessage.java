@@ -1,6 +1,5 @@
 package service.core.message;
 
-import service.core.ClientInfo;
 import service.core.Quotation;
 
 public class QuotationResponseMessage implements java.io.Serializable {
