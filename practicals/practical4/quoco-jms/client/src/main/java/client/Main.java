@@ -21,7 +21,6 @@ import service.core.message.QuotationRequestMessage;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 public class Main {
-static Map<Long, ClientInfo> cache = new HashMap<Long,ClientInfo>();
 static long SEED_ID = 0;
 	
 	/**
@@ -62,7 +61,6 @@ for(ClientInfo client: clients){
 // send quotation to the requests queue
 QuotationRequestMessage quotationRequest = new QuotationRequestMessage(SEED_ID++, client);
 Message request = session.createObjectMessage(quotationRequest);
-cache.put(quotationRequest.id, quotationRequest.info);
 producer.send(request);
 }
 while(true){
