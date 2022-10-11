@@ -13,25 +13,16 @@ import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 import javax.jms.Session;
-import javax.jms.Topic;
-
-
-// import service.auldfellas.AFQService;
-// import service.broker.LocalBrokerService;
-import service.core.BrokerService;
 import service.core.ClientInfo;
 import service.core.Quotation;
+import service.core.message.ClientApplicationMessage;
 import service.core.message.QuotationRequestMessage;
-import service.core.message.QuotationResponseMessage;
-import service.core.Constants;
-// import service.dodgydrivers.DDQService;
-// import service.girlpower.GPQService;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 public class Main {
 static Map<Long, ClientInfo> cache = new HashMap<Long,ClientInfo>();
-static int SEED_ID = 0;
+static long SEED_ID = 0;
 	
 	/**
 	 * This is the starting point for the application. Here, we must
@@ -50,7 +41,6 @@ static int SEED_ID = 0;
 			host = args[0];
 		}
 
-
         try{
 
         ConnectionFactory factory =
@@ -58,26 +48,37 @@ new ActiveMQConnectionFactory("failover://tcp://"+host+":61616");
  Connection connection = factory.createConnection();
  connection.setClientID("client");
  Session session = connection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
- Queue queue = session.createQueue("QUOTATIONS");
- Topic topic = session.createTopic("APPLICATIONS");
- MessageProducer producer = session.createProducer(topic);
- MessageConsumer consumer = session.createConsumer(queue);
+ Queue requestsQueue = session.createQueue("REQUESTS");
+ Queue responsesQueue = session.createQueue("RESPONSES");
+ // produce messages for the requests queue
+ MessageProducer producer = session.createProducer(requestsQueue);
+ // consume messages from the response queue
+ MessageConsumer consumer = session.createConsumer(responsesQueue);
  connection.start();
 
+// loop over all the clients that are available
+for(ClientInfo client: clients){
 
-QuotationRequestMessage quotationRequest = new QuotationRequestMessage(SEED_ID++, clients[0]);
+// send quotation to the requests queue
+QuotationRequestMessage quotationRequest = new QuotationRequestMessage(SEED_ID++, client);
 Message request = session.createObjectMessage(quotationRequest);
 cache.put(quotationRequest.id, quotationRequest.info);
 producer.send(request);
-
+}
+while(true){
+// consume messages from the responses queue and print the results
 Message message = consumer.receive();
 if (message instanceof ObjectMessage) {
  Object content = ((ObjectMessage) message).getObject();
- if (content instanceof QuotationResponseMessage) {
- QuotationResponseMessage response = (QuotationResponseMessage) content;
- ClientInfo info = cache.get(response.id);
+ if (content instanceof ClientApplicationMessage) {
+ ClientApplicationMessage response = (ClientApplicationMessage) content;
+ ClientInfo info = response.info;
  displayProfile(info);
- displayQuotation(response.quotation);
+
+ // for each quotation in the array of quotations returned print them out
+ for(Quotation quotation : response.quotations){
+ displayQuotation(quotation);
+ }
  System.out.println("\n");
  }
  message.acknowledge();
@@ -85,23 +86,11 @@ if (message instanceof ObjectMessage) {
  System.out.println("Unknown message type: " +
 message.getClass().getCanonicalName());
 } 
-
+}
         }
         catch(JMSException e){
             e.printStackTrace();
         } 
-		// Create the broker and run the test data
-		// for (ClientInfo info : clients) {
-		// 	displayProfile(info);
-			
-		// 	// Retrieve quotations from the broker and display them...
-		// 	// for(Quotation quotation : brokerService.getQuotations(info)) {
-		// 		displayQuotation();
-		// 	// }
-			
-		// 	// Print a couple of lines between each client
-		// 	System.out.println("\n");
-		// }
 	}
 	
 	/**

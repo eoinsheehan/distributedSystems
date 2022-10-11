@@ -36,7 +36,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.6.0</version>
                 <configuration>
-                    <mainClass>Server</mainClass>
+                    <mainClass>service.Broker</mainClass>
                 </configuration>
             </plugin>
             <plugin>
@@ -49,7 +49,7 @@
                     <configuration>
                         <archive>
                         <manifest>
-                            <mainClass>Server</mainClass>
+                            <mainClass>service.Broker</mainClass>
                         </manifest>
                         </archive>
                         <descriptorRefs>
