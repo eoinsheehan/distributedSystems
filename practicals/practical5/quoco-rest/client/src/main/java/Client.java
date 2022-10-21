@@ -1,5 +1,5 @@
 import java.text.NumberFormat;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.web.client.RestTemplate;
@@ -15,7 +15,7 @@ public class Client {
         for(ClientInfo client: clients){
             RestTemplate restTemplate = new RestTemplate();
             // instantiate the relevant Client Application object
-            ClientApplication application = new ClientApplication(client, new LinkedList<Quotation>());
+            ClientApplication application = new ClientApplication(client, new ArrayList<Quotation>());
             // pass the relevant object as a http entity
             HttpEntity<ClientApplication> request = new HttpEntity<>(application);
             // retrieve the client application from the broker API

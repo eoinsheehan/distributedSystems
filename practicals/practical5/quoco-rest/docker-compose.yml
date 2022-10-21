@@ -3,20 +3,18 @@ services:
     broker:
         build: broker
         environment:
-            CONTAINER_NAME: broker 
-        depends_on:
-            - auldfellas
-            - dodgydrivers
-            - girlpower 
+            URLS: http://auldfellas:8081/,http://girlpower:8082/,http://dodgydrivers:8083/
+        ports:
+          - "8080:8080"
     auldfellas:
         build: auldfellas 
-        environment:
-            CONTAINER_NAME: auldfellas
+        expose:
+        - 8081
     girlpower:
         build: girlpower 
-        environment:
-            CONTAINER_NAME: girlpower
+        expose:
+        - 8082
     dodgydrivers:
         build: dodgydrivers
-        environment:
-            CONTAINER_NAME: dodgydrivers
+        expose:
+        - 8083

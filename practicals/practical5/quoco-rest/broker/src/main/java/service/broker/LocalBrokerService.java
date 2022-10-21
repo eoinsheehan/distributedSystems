@@ -2,12 +2,13 @@ package service.broker;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -38,7 +39,8 @@ public class LocalBrokerService {
     private Map<Long, ClientApplication> cache = new HashMap<>();
     static long applicationID=0;
 
-    String[] services = new String[]{"http://localhost:8081/","http://localhost:8082/","http://localhost:8083/"};
+    @Value("#{'${server.urls}'.split(',\\s*')}")
+    List<String> urls;
     
     @RequestMapping(value="/applications",method=RequestMethod.POST)
     public ResponseEntity<ClientApplication> postApplication(@RequestBody ClientInfo info) {
@@ -46,10 +48,10 @@ public class LocalBrokerService {
         applicationID++;
         // try add it as a key in the cache
         if(!cache.containsKey(applicationID))   { 
-        cache.put(applicationID,new ClientApplication(info,new LinkedList<Quotation>()));
+        cache.put(applicationID,new ClientApplication(info,new ArrayList<Quotation>()));
         }
         // call the getQuotations method
-        List<Quotation> quotations = getQuotations(info);
+        ArrayList<Quotation> quotations = getQuotations(info);
         // the list of quotations returned by this method should be associated with the ClientInfo and a unique application number stored in the map
         // after all services have been checked add all quotations to cache for get requests
         cache.put(applicationID, new ClientApplication(info, quotations));
@@ -69,11 +71,11 @@ public class LocalBrokerService {
     }
 
 
-	public List<Quotation> getQuotations(ClientInfo info) {
-		List<Quotation> quotations = new LinkedList<Quotation>();
+	public ArrayList<Quotation> getQuotations(ClientInfo info) {
+		ArrayList<Quotation> quotations = new ArrayList<Quotation>();
 
         // for each of the available services
-        for(String url: services){
+        for(String url: urls){
             RestTemplate restTemplate = new RestTemplate();
             // create the body of the request
             HttpEntity<ClientInfo> request = new HttpEntity<>(info);

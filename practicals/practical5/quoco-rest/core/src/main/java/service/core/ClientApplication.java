@@ -1,12 +1,13 @@
 package service.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClientApplication  {
     public ClientInfo info;
-    public List<Quotation> quotations;
+    public ArrayList<Quotation> quotations;
 
-    public ClientApplication(ClientInfo info,List<Quotation> quotations){
+    public ClientApplication(ClientInfo info,ArrayList<Quotation> quotations){
         this.info=info;
         this.quotations=quotations;
     }
