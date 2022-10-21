@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,7 @@ import service.core.Quotation;
 public class LocalBrokerService {
 
     private Map<Long, ClientApplication> cache = new HashMap<>();
-    private static long applicationID=0;
+    static long applicationID=0;
 
     String[] services = new String[]{"http://localhost:8081/","http://localhost:8082/","http://localhost:8083/"};
     
@@ -87,29 +88,57 @@ public class LocalBrokerService {
 		return quotations;
 	}
 
-    // get method for all applications
+    // get method for paricular ID
 @RequestMapping(value="/applications/{applicationID}",method=RequestMethod.GET)
-public ClientApplication getApplicationByID(@PathVariable("applicationID") long applicationID) {
+public ResponseEntity<ClientApplication> getApplicationByID(@PathVariable("applicationID") String applicationID) {
     ClientApplication requestedApplication;
+
+    long selectedID = Long.parseLong(applicationID);
     // check cache for this ID
-    if(cache.containsKey(applicationID)){
-        requestedApplication = cache.get(applicationID);
-	return requestedApplication;
+    if(cache.containsKey(selectedID)){
+        requestedApplication = cache.get(selectedID);
+
+    String path = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString()+ "/applications/";
+    HttpHeaders headers = new HttpHeaders();
+
+    try {
+        headers.setLocation(new URI(path));
+    } catch (URISyntaxException e) {
+        e.printStackTrace();
+    }
+
+	return new ResponseEntity<ClientApplication>(requestedApplication,headers,HttpStatus.CREATED);
     }
     return null;
 }
+// get request for all applications in cache
+@RequestMapping(value="/applications",method=RequestMethod.GET)
+public ResponseEntity<List<ClientApplication>> getAllApplications() {
+    LinkedList<ClientApplication> allApplications = new LinkedList<ClientApplication>();
 
+    // check if anything in cache
+    if(!cache.isEmpty()){
+        for(ClientApplication application: cache.values()){
+            allApplications.add(application);
+        }
 
+        String path = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString()+ "/applications";
+        HttpHeaders headers = new HttpHeaders();
 
-    // return list of client application objects
+        try {
+            headers.setLocation(new URI(path));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 
-    // get method for specific application ID@RequestMapping(value="/quotations/{reference}",method=RequestMethod.GET)
-// public Quotation getResource(@PathVariable("reference") String reference) {
-// 	Quotation quotation = quotations.get(reference);
-// 	if (quotation == null) throw new NoSuchQuotationException();
+        return new ResponseEntity<List<ClientApplication>>(allApplications,headers,HttpStatus.CREATED);
+    }
 
-// 	return quotation;
-// }
+    // return null if there are no values in the map
+    return null;
+
+    }
+
 
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 public class NoSuchQuotationException extends RuntimeException {

@@ -13,13 +13,13 @@ public class ClientApplication  {
 
     public ClientApplication(){};
 
-    // public ClientInfo getInfo(){
-    //     return this.info;
-    // }
+    public ClientInfo getInfo(){
+        return this.info;
+    }
 
-    // public void setInfo(ClientInfo info){
-    //     this.info = info;
-    // }
+    public void setInfo(ClientInfo info){
+        this.info = info;
+    }
 
     
     // public List<Quotation> getQuotations(){
