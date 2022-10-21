@@ -1,11 +1,10 @@
 package service.core;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class ClientApplication  {
-    public ClientInfo info;
-    public ArrayList<Quotation> quotations;
+public class ClientApplication implements java.io.Serializable  {
+    private ClientInfo info;
+    private ArrayList<Quotation> quotations;
 
     public ClientApplication(ClientInfo info,ArrayList<Quotation> quotations){
         this.info=info;
@@ -23,12 +22,12 @@ public class ClientApplication  {
     }
 
     
-    // public List<Quotation> getQuotations(){
-    //     return this.quotations;
-    // }
+    public ArrayList<Quotation> getQuotations(){
+        return this.quotations;
+    }
 
-    // public void setQuotations(Quotation quotation){
-    //     this.quotations.add(quotation);
-    // }
+    public void setQuotations(ArrayList<Quotation> quotation){
+        this.quotations = quotation;
+    }
     
 }

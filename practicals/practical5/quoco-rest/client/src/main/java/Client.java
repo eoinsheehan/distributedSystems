@@ -14,20 +14,19 @@ public class Client {
         // for each client ask the broker to get quotations
         for(ClientInfo client: clients){
             RestTemplate restTemplate = new RestTemplate();
-            // instantiate the relevant Client Application object
-            ClientApplication application = new ClientApplication(client, new ArrayList<Quotation>());
             // pass the relevant object as a http entity
-            HttpEntity<ClientApplication> request = new HttpEntity<>(application);
+            HttpEntity<ClientInfo> request = new HttpEntity<>(client);
             // retrieve the client application from the broker API
             ClientApplication clientApplication =
             restTemplate.postForObject("http://localhost:8080/applications",
             request, ClientApplication.class);
+
             // display the client which is being queried
             displayProfile(client);
             // check that the correct object type has been returned
             if(clientApplication instanceof ClientApplication){
             // for each quotation in the list returned from the broker API response
-            for(Quotation quotation: clientApplication.quotations){
+            for(Quotation quotation: clientApplication.getQuotations()){
                 displayQuotation(quotation);
         }
     }
