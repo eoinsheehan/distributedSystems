@@ -3,8 +3,8 @@ package service.core;
 import java.util.List;
 
 public class ClientApplication  {
-    private ClientInfo info;
-    private List<Quotation> quotations;
+    public ClientInfo info;
+    public List<Quotation> quotations;
 
     public ClientApplication(ClientInfo info,List<Quotation> quotations){
         this.info=info;
@@ -13,21 +13,21 @@ public class ClientApplication  {
 
     public ClientApplication(){};
 
-    public ClientInfo getInfo(){
-        return this.info;
-    }
+    // public ClientInfo getInfo(){
+    //     return this.info;
+    // }
 
-    public void setInfo(ClientInfo info){
-        this.info = info;
-    }
+    // public void setInfo(ClientInfo info){
+    //     this.info = info;
+    // }
 
     
-    public List<Quotation> getQuotations(){
-        return this.quotations;
-    }
+    // public List<Quotation> getQuotations(){
+    //     return this.quotations;
+    // }
 
-    public void setQuotations(Quotation quotation){
-        this.quotations.add(quotation);
-    }
+    // public void setQuotations(Quotation quotation){
+    //     this.quotations.add(quotation);
+    // }
     
 }

@@ -1,0 +1,22 @@
+version: '3'
+services:
+    broker:
+        build: broker
+        environment:
+            CONTAINER_NAME: broker 
+        depends_on:
+            - auldfellas
+            - dodgydrivers
+            - girlpower 
+    auldfellas:
+        build: auldfellas 
+        environment:
+            CONTAINER_NAME: auldfellas
+    girlpower:
+        build: girlpower 
+        environment:
+            CONTAINER_NAME: girlpower
+    dodgydrivers:
+        build: dodgydrivers
+        environment:
+            CONTAINER_NAME: dodgydrivers

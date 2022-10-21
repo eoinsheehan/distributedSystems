@@ -27,7 +27,7 @@ public class Client {
             // check that the correct object type has been returned
             if(clientApplication instanceof ClientApplication){
             // for each quotation in the list returned from the broker API response
-            for(Quotation quotation: clientApplication.getQuotations()){
+            for(Quotation quotation: clientApplication.quotations){
                 displayQuotation(quotation);
         }
     }
