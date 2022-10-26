@@ -67,7 +67,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.6.0</version>
                 <configuration>
-                    <mainClass>service.receiver.Receiver</mainClass>
+                    <mainClass>service.auldfellas.Main</mainClass>
                 </configuration>
             </plugin>
             <plugin>
@@ -80,7 +80,7 @@
                     <configuration>
                         <archive>
                         <manifest>
-                            <mainClass>service.receiver.Receiver</mainClass>
+                            <mainClass>service.auldfellas.Main</mainClass>
                         </manifest>
                         </archive>
                         <descriptorRefs>

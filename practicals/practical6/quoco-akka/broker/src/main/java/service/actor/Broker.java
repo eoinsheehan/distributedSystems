@@ -17,16 +17,15 @@ public class Broker extends AbstractActor {
         return receiveBuilder()
         .match(String.class,
         msg -> {
-        if (!msg.equals("register")) {
-            System.out.println("Registering"+getSender());
+        if (!msg.equals("register")) return;
+        System.out.println("Registering "+getSender());
         actorRefs.add(getSender());
         getSender().tell(new QuotationRequest(1,
         new ClientInfo("Niki Collier", ClientInfo.FEMALE, 43, 0, 5, "PQR254/1")),getSelf());
-        };
         })
         .match(QuotationResponse.class,
         msg -> {
-            System.out.println(msg.getID()+"from "+getSender());
+            System.out.println(msg.getID()+" from "+getSender());
         }).build(); 
     }
    } 
