@@ -1,0 +1,10 @@
+service\messages\QuotationResponse.class
+service\core\AbstractQuotationService.class
+service\core\Quotation.class
+service\messages\MySerializable.class
+service\core\QuotationService.class
+service\core\ClientInfo.class
+service\actor\Quoter.class
+service\core\Constants.class
+service\messages\Init.class
+service\messages\QuotationRequest.class

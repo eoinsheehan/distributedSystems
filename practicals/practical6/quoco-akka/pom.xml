@@ -1,0 +1,19 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>lab6</groupId>
+    <artifactId>quoco-jms</artifactId>
+    <version>0.1.0</version>
+    <packaging>pom</packaging>
+
+
+
+    <modules>
+        <module>core</module>
+        <module>auldfellas</module>
+        <module>dodgydrivers</module>
+        <module>girlpower</module>
+        <module>broker</module>
+        <module>client</module>
+    </modules>
+
+</project>
